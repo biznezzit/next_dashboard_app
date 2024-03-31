@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { Metadata } from 'next'; 
 
 export const metadata: Metadata = {
-  title: 'Invoices'
+  title: 'Dashboard'
 }
 
 export default function Page() {
