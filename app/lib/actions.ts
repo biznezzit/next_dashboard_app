@@ -180,3 +180,35 @@ export async function createCustomer(prevState: CustomerState, formData: FormDat
   revalidatePath('/dashboard/customers');
   redirect('/dashboard/customers');
 }
+
+const UpdateCustomer = CustomerFormSchema.omit({ id: true });
+
+export async function updateCustomer(id: string, prevState: CustomerState, formData: FormData) {
+  const validatedFields = UpdateCustomer.safeParse({
+    name: formData.get('name'),
+    email: formData.get('email'),
+    imageUrl: formData.get('imageUrl'),
+  });
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing fields. Failed to update customer.'
+    };
+  }
+
+  const { name, email, imageUrl } = validatedFields.data;
+
+  try {
+    await sql`
+      UPDATE customers
+      SET name = ${name}, email = ${email}, image_url = ${imageUrl}
+      WHERE id = ${id}
+    `;
+  } catch (error) {
+    return {
+      message: 'Database Error: Failed to update customer.'
+    }
+  }
+  revalidatePath('/dashboard/customers');
+  redirect('/dashboard/customers');
+}

@@ -5,7 +5,7 @@ import {
   CustomersTableType,
   FormattedCustomersTable,
 } from '@/app/lib/definitions';
-import { CreateCustomer } from '@/app/ui/invoices/buttons';
+import { CreateCustomer, UpdateCustomer } from '@/app/ui/customers/buttons';
 
 export default async function CustomersTable({
   customers,
@@ -115,6 +115,11 @@ export default async function CustomersTable({
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
                         {customer.total_paid}
+                      </td>
+                      <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">
+                        <div className="flex justify-end gap-3">
+                          <UpdateCustomer id={customer.id} />
+                        </div>
                       </td>
                     </tr>
                   ))}
